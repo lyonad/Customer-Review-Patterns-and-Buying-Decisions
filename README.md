@@ -76,8 +76,8 @@ The models showed the following performance after GWO optimization:
 ## Files Structure
 
 ```
-├── Customer_Review_Analysis_GWO.ipynb          # Jupyter notebook with complete analysis
-├── customer_review_gwo_optimized.py           # Python script implementation
+├── customer_review_gwo_optimized.ipynb       # Jupyter notebook with complete analysis
+├── customer_review_gwo_optimized.py          # Python script implementation
 ├── data/
 │   ├── Customer_Review (1).csv               # Customer review dataset
 │   └── DATASET_INFO.md                       # Dataset documentation
@@ -120,7 +120,7 @@ pip install pandas numpy scikit-learn xgboost lightgbm catboost imbalanced-learn
 ```bash
 jupyter notebook
 ```
-2. Open `Customer_Review_Analysis_GWO.ipynb`
+2. Open `customer_review_gwo_optimized.ipynb`
 3. Run all cells to reproduce the analysis
 
 ### Python Script
