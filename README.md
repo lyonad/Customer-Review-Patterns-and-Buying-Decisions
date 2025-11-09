@@ -6,7 +6,7 @@ This project implements a comparative analysis of three popular gradient boostin
 
 ## DOI and Citation
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17562401.svg)](https://doi.org/10.5281/zenodo.17562401)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17565789.svg)](https://doi.org/10.5281/zenodo.17565789)
 
 **Citation (APA):**
 ```
