@@ -13,43 +13,49 @@ import warnings
 import os
 warnings.filterwarnings('ignore')
 
-# Grey Wolf Optimization algorithm with iteration indicator
+# Grey Wolf Optimization algorithm with convergence tracking
 def grey_wolf_optimizer(func, bounds, n_wolves=10, max_iter=100):
     """
-    Grey Wolf Optimizer implementation
+    Grey Wolf Optimizer implementation with convergence curve tracking
     """
     n_vars = len(bounds)
     alpha_pos, alpha_score = np.zeros(n_vars), float('inf')
     beta_pos, beta_score = np.zeros(n_vars), float('inf')
     delta_pos, delta_score = np.zeros(n_vars), float('inf')
-    
+
+    # Track convergence curve
+    convergence_curve = []
+
     # Initialize wolves
     positions = np.zeros((n_wolves, n_vars))
     for i in range(n_vars):
         positions[:, i] = np.random.uniform(bounds[i][0], bounds[i][1], n_wolves)
-    
+
     for iteration in range(max_iter):
         print(f"GWO Iteration {iteration + 1}/{max_iter}...", end=" ")
-        
+
         for i in range(n_wolves):
             # Calculate objective function for each wolf
             score = func(positions[i, :])
-            
+
             # Update alpha, beta, delta
             if score < alpha_score:
                 alpha_score = score
                 alpha_pos = positions[i, :].copy()
-                
+
             if score < beta_score and score > alpha_score:
                 beta_score = score
                 beta_pos = positions[i, :].copy()
-                
+
             if score < delta_score and score > alpha_score and score > beta_score:
                 delta_score = score
                 delta_pos = positions[i, :].copy()
-        
+
+        # Store best fitness for this iteration (note: we minimize, so best is lowest score)
+        convergence_curve.append(-alpha_score)  # Convert back to positive accuracy
+
         a = 2 - iteration * (2 / max_iter)  # a decreases linearly from 2 to 0
-        
+
         # Update positions
         for i in range(n_wolves):
             for j in range(n_vars):
@@ -72,13 +78,13 @@ def grey_wolf_optimizer(func, bounds, n_wolves=10, max_iter=100):
                 X3 = delta_pos[j] - A3 * D_delta
 
                 positions[i, j] = (X1 + X2 + X3) / 3.0
-                
+
                 # Bound checking
                 positions[i, j] = np.clip(positions[i, j], bounds[j][0], bounds[j][1])
-        
+
         print(f"Best score so far: {-alpha_score:.4f}")
-    
-    return alpha_pos, alpha_score
+
+    return alpha_pos, alpha_score, convergence_curve
 
 # Load the dataset
 df = pd.read_csv('data/Customer_Review (1).csv')
@@ -205,7 +211,7 @@ xgb_bounds = [
     [0.0, 1.0],     # reg_alpha
     [0.0, 2.0]      # reg_lambda
 ]
-best_xgb_params, best_xgb_score = grey_wolf_optimizer(xgb_objective, xgb_bounds, max_iter=20)
+best_xgb_params, best_xgb_score, xgb_convergence = grey_wolf_optimizer(xgb_objective, xgb_bounds, max_iter=20)
 # Convert best_xgb_score back to positive accuracy
 best_xgb_acc = -best_xgb_score
 print(f"Best XGBoost parameters: n_estimators={int(best_xgb_params[0])}, max_depth={int(best_xgb_params[1])}, "
@@ -221,7 +227,7 @@ lgb_bounds = [
     [0.0, 1.0],     # reg_alpha
     [0.0, 2.0]      # reg_lambda
 ]
-best_lgb_params, best_lgb_score = grey_wolf_optimizer(lgb_objective, lgb_bounds, max_iter=20)
+best_lgb_params, best_lgb_score, lgb_convergence = grey_wolf_optimizer(lgb_objective, lgb_bounds, max_iter=20)
 # Convert best_lgb_score back to positive accuracy
 best_lgb_acc = -best_lgb_score
 print(f"Best LightGBM parameters: n_estimators={int(best_lgb_params[0])}, max_depth={int(best_lgb_params[1])}, "
@@ -236,7 +242,7 @@ cat_bounds = [
     [0.01, 0.3],    # learning_rate
     [0.0, 2.0]      # reg_lambda
 ]
-best_cat_params, best_cat_score = grey_wolf_optimizer(cat_objective, cat_bounds, max_iter=20)
+best_cat_params, best_cat_score, cat_convergence = grey_wolf_optimizer(cat_objective, cat_bounds, max_iter=20)
 # Convert best_cat_score back to positive accuracy
 best_cat_acc = -best_cat_score
 print(f"Best CatBoost parameters: iterations={int(best_cat_params[0])}, depth={int(best_cat_params[1])}, "
@@ -400,6 +406,66 @@ plt.xticks(range(len(importances)), [feature_names[i] for i in indices], rotatio
 plt.tight_layout()
 plt.savefig(os.path.join(results_dir, f'feature_importance_{best_model_name.lower()}.png'), dpi=300, bbox_inches='tight')
 plt.show()
+
+# Plot convergence curves
+print("\nGenerating convergence curves...")
+plt.figure(figsize=(12, 8))
+
+# Plot all convergence curves together in one comprehensive plot
+models = ['XGBoost', 'LightGBM', 'CatBoost']
+colors = ['#1f77b4', '#ff7f0e', '#2ca02c']  # Professional colors
+markers = ['o', 's', '^']
+linewidth = 3
+
+for i, (model, color, marker) in enumerate(zip(models, colors, markers)):
+    convergence_data = [xgb_convergence, lgb_convergence, cat_convergence][i]
+    plt.plot(range(1, len(convergence_data) + 1), convergence_data,
+            color=color, linewidth=linewidth, marker=marker,
+            markersize=6, markerfacecolor='white', markeredgewidth=2,
+            label=model, alpha=0.9)
+
+# Customize the plot
+plt.title('Grey Wolf Optimization Convergence Curves\nCustomer Review Classification Models',
+         fontsize=16, fontweight='bold', pad=20)
+plt.xlabel('Iteration', fontsize=14)
+plt.ylabel('Accuracy', fontsize=14)
+
+# Add grid
+plt.grid(True, alpha=0.3, linestyle='--')
+
+# Customize legend
+plt.legend(fontsize=12, loc='lower right', framealpha=0.9)
+
+# Set axis limits with some padding
+all_values = xgb_convergence + lgb_convergence + cat_convergence
+y_min, y_max = min(all_values), max(all_values)
+y_padding = (y_max - y_min) * 0.05
+plt.ylim([y_min - y_padding, y_max + y_padding])
+
+# Improve tick labels
+iterations = list(range(1, len(xgb_convergence) + 1))
+plt.xticks(iterations, fontsize=12)
+plt.yticks(fontsize=12)
+
+# Add subtle background color
+plt.gca().set_facecolor('#f8f9fa')
+
+plt.tight_layout()
+plt.savefig(os.path.join(results_dir, 'gwo_convergence_curves.png'), dpi=300, bbox_inches='tight')
+plt.show()
+
+print(f"Convergence curves saved to: {os.path.join(results_dir, 'gwo_convergence_curves.png')}")
+
+# Save convergence data to CSV
+convergence_data = {
+    'Iteration': list(range(1, len(xgb_convergence) + 1)),
+    'XGBoost': xgb_convergence,
+    'LightGBM': lgb_convergence,
+    'CatBoost': cat_convergence
+}
+convergence_df = pd.DataFrame(convergence_data)
+convergence_df.to_csv(os.path.join(results_dir, 'gwo_convergence_data.csv'), index=False)
+print(f"Convergence data saved to: {os.path.join(results_dir, 'gwo_convergence_data.csv')}")
 
 # Detailed classification report for best model
 print(f"\nDetailed Classification Report for {best_model_name} (GWO Optimized):")
