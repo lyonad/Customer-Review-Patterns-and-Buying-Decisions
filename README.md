@@ -4,6 +4,15 @@
 
 This project implements a comparative analysis of three popular gradient boosting algorithms - XGBoost, LightGBM, and CatBoost - optimized using the Grey Wolf Optimization (GWO) algorithm for customer review classification. The goal is to predict customer purchase decisions based on demographic data, reviews, and other customer attributes.
 
+## DOI and Citation
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17562401.svg)](https://doi.org/10.5281/zenodo.17562401)
+
+**Citation (APA):**
+```
+Lyon Ambrosio Djuanda. (2025). lyonad/Customer-Review-Patterns-and-Buying-Decisions: Initial Release (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.17562401
+```
+
 ## Table of Contents
 - [Project Overview](#overview)
 - [Dataset](#dataset)
