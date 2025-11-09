@@ -354,7 +354,7 @@ plt.legend()
 plt.ylim(0, 1)
 plt.tight_layout()
 plt.savefig(os.path.join(results_dir, 'full_metrics_comparison.png'), dpi=300, bbox_inches='tight')
-plt.show()
+# plt.show()  # Removed to prevent display during execution
 
 # 2. Accuracy comparison specifically
 plt.figure(figsize=(10, 6))
@@ -366,7 +366,7 @@ for i, v in enumerate(metrics_df['Accuracy']):
     plt.text(i, v + 0.01, f'{v:.3f}', ha='center', va='bottom')
 plt.tight_layout()
 plt.savefig(os.path.join(results_dir, 'accuracy_comparison.png'), dpi=300, bbox_inches='tight')
-plt.show()
+# plt.show()  # Removed to prevent display during execution
 
 # 3. Best model detailed results
 best_model_obj = [xgb_optimized, lgb_optimized, cat_optimized][best_idx]
@@ -384,7 +384,7 @@ plt.xlabel('Predicted')
 plt.ylabel('Actual')
 plt.tight_layout()
 plt.savefig(os.path.join(results_dir, f'confusion_matrix_{best_model_name.lower()}.png'), dpi=300, bbox_inches='tight')
-plt.show()
+# plt.show()  # Removed to prevent display during execution
 
 # 4. Feature importance for best model
 feature_names = X.columns.tolist()
@@ -405,7 +405,7 @@ plt.title(f'Feature Importance - {best_model_name} (GWO Optimized)')
 plt.xticks(range(len(importances)), [feature_names[i] for i in indices], rotation=45, ha="right")
 plt.tight_layout()
 plt.savefig(os.path.join(results_dir, f'feature_importance_{best_model_name.lower()}.png'), dpi=300, bbox_inches='tight')
-plt.show()
+# plt.show()  # Removed to prevent display during execution
 
 # Plot convergence curves
 print("\nGenerating convergence curves...")
@@ -452,7 +452,7 @@ plt.gca().set_facecolor('#f8f9fa')
 
 plt.tight_layout()
 plt.savefig(os.path.join(results_dir, 'gwo_convergence_curves.png'), dpi=300, bbox_inches='tight')
-plt.show()
+# plt.show()  # Removed to prevent display during execution
 
 print(f"Convergence curves saved to: {os.path.join(results_dir, 'gwo_convergence_curves.png')}")
 
