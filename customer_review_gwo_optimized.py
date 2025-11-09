@@ -386,26 +386,34 @@ plt.tight_layout()
 plt.savefig(os.path.join(results_dir, f'confusion_matrix_{best_model_name.lower()}.png'), dpi=300, bbox_inches='tight')
 # plt.show()  # Removed to prevent display during execution
 
-# 4. Feature importance for best model
+# 4. Feature importance for all models
 feature_names = X.columns.tolist()
 
-# Get feature importances for the best model
-if best_model_name == 'XGBoost':
-    importances = best_model_obj.feature_importances_
-elif best_model_name == 'LightGBM':
-    importances = best_model_obj.feature_importances_
-elif best_model_name == 'CatBoost':
-    importances = best_model_obj.feature_importances_
+print("\nGenerating feature importance plots for all models...")
 
-indices = np.argsort(importances)[::-1]
+# Generate feature importance for each model
+for idx, (model_name, model_obj) in enumerate(zip(['XGBoost', 'LightGBM', 'CatBoost'], [xgb_optimized, lgb_optimized, cat_optimized])):
+    print(f"Processing feature importance for {model_name}...")
 
-plt.figure(figsize=(10, 6))
-plt.bar(range(len(importances)), importances[indices])
-plt.title(f'Feature Importance - {best_model_name} (GWO Optimized)')
-plt.xticks(range(len(importances)), [feature_names[i] for i in indices], rotation=45, ha="right")
-plt.tight_layout()
-plt.savefig(os.path.join(results_dir, f'feature_importance_{best_model_name.lower()}.png'), dpi=300, bbox_inches='tight')
-# plt.show()  # Removed to prevent display during execution
+    # Get feature importances
+    if model_name == 'XGBoost':
+        importances = model_obj.feature_importances_
+    elif model_name == 'LightGBM':
+        importances = model_obj.feature_importances_
+    elif model_name == 'CatBoost':
+        importances = model_obj.feature_importances_
+
+    indices = np.argsort(importances)[::-1]
+
+    plt.figure(figsize=(10, 6))
+    plt.bar(range(len(importances)), importances[indices])
+    plt.title(f'Feature Importance - {model_name} (GWO Optimized)')
+    plt.xticks(range(len(importances)), [feature_names[i] for i in indices], rotation=45, ha="right")
+    plt.tight_layout()
+    plt.savefig(os.path.join(results_dir, f'feature_importance_{model_name.lower()}.png'), dpi=300, bbox_inches='tight')
+    # plt.show()  # Removed to prevent display during execution
+
+print("Feature importance plots saved for all models.")
 
 # Plot convergence curves
 print("\nGenerating convergence curves...")

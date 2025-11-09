@@ -99,6 +99,7 @@ The models showed the following performance after GWO optimization:
 │   ├── customer_review_analysis_report.txt   # Detailed analysis report
 │   ├── feature_importance_catboost.png       # Feature importance for CatBoost
 │   ├── feature_importance_xgboost.png        # Feature importance for XGBoost
+│   ├── feature_importance_lightgbm.png       # Feature importance for LightGBM
 │   ├── gwo_convergence_curves.png            # Single comprehensive GWO convergence curves plot
 │   ├── gwo_convergence_data.csv              # Raw convergence data for analysis
 │   └── model_metrics_comparison.csv          # Model performance metrics
@@ -167,7 +168,7 @@ The project requires the following Python packages:
 2. **Comprehensive Model Comparison:** Evaluates three state-of-the-art gradient boosting algorithms
 3. **Feature Engineering:** Automatically creates meaningful feature combinations
 4. **Data Augmentation:** Uses SMOTE to handle imbalanced datasets
-5. **Visualization:** Generates comprehensive visualizations of model performance and optimization convergence
+5. **Visualization:** Generates comprehensive visualizations of model performance and optimization convergence (saved to files, not displayed during execution)
 6. **Convergence Analysis:** Single comprehensive plot showing GWO optimization progress for all models
 7. **Model Persistence:** Saves the best performing model for future use
 
