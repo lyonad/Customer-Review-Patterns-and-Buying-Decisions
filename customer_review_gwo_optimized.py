@@ -368,25 +368,31 @@ plt.tight_layout()
 plt.savefig(os.path.join(results_dir, 'accuracy_comparison.png'), dpi=300, bbox_inches='tight')
 # plt.show()  # Removed to prevent display during execution
 
-# 3. Best model detailed results
-best_model_obj = [xgb_optimized, lgb_optimized, cat_optimized][best_idx]
-best_X_test = X_test_sm
-best_y_test = y_test_sm
-y_pred_best = best_model_obj.predict(best_X_test)
+# 3. Confusion matrices for all models
+print("\nGenerating confusion matrices for all models...")
 
-plt.figure(figsize=(8, 6))
-cm = confusion_matrix(best_y_test, y_pred_best)
-sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', 
-            xticklabels=target_encoder.classes_, 
-            yticklabels=target_encoder.classes_)
-plt.title(f'Confusion Matrix - {best_model_name} (GWO Optimized)')
-plt.xlabel('Predicted')
-plt.ylabel('Actual')
-plt.tight_layout()
-plt.savefig(os.path.join(results_dir, f'confusion_matrix_{best_model_name.lower()}.png'), dpi=300, bbox_inches='tight')
-# plt.show()  # Removed to prevent display during execution
+for idx, (model_name, model_obj) in enumerate(zip(['XGBoost', 'LightGBM', 'CatBoost'], [xgb_optimized, lgb_optimized, cat_optimized])):
+    print(f"Processing confusion matrix for {model_name}...")
 
-# 4. Feature importance for all models
+    # Make predictions
+    y_pred = model_obj.predict(X_test_sm)
+
+    # Create confusion matrix plot
+    plt.figure(figsize=(8, 6))
+    cm = confusion_matrix(y_test_sm, y_pred)
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
+                xticklabels=target_encoder.classes_,
+                yticklabels=target_encoder.classes_)
+    plt.title(f'Confusion Matrix - {model_name} (GWO Optimized)')
+    plt.xlabel('Predicted')
+    plt.ylabel('Actual')
+    plt.tight_layout()
+    plt.savefig(os.path.join(results_dir, f'confusion_matrix_{model_name.lower()}.png'), dpi=300, bbox_inches='tight')
+    # plt.show()  # Removed to prevent display during execution
+
+print("Confusion matrices saved for all models.")
+
+# 4. Best model detailed results
 feature_names = X.columns.tolist()
 
 print("\nGenerating feature importance plots for all models...")
@@ -476,6 +482,10 @@ convergence_df.to_csv(os.path.join(results_dir, 'gwo_convergence_data.csv'), ind
 print(f"Convergence data saved to: {os.path.join(results_dir, 'gwo_convergence_data.csv')}")
 
 # Detailed classification report for best model
+best_model_obj = [xgb_optimized, lgb_optimized, cat_optimized][best_idx]
+best_y_test = y_test_sm
+y_pred_best = best_model_obj.predict(X_test_sm)
+
 print(f"\nDetailed Classification Report for {best_model_name} (GWO Optimized):")
 print(classification_report(best_y_test, y_pred_best, target_names=target_encoder.classes_))
 
@@ -496,8 +506,16 @@ print("\nRECOMMENDATION: The augmented dataset with SMOTE and GWO optimization h
 metrics_df.to_csv(os.path.join(results_dir, 'model_metrics_comparison.csv'), index=False)
 print(f"\nModel metrics saved to: {os.path.join(results_dir, 'model_metrics_comparison.csv')}")
 
-# Save the best model
+# Save all trained models
 import joblib
-best_model = [xgb_optimized, lgb_optimized, cat_optimized][best_idx]
-joblib.dump(best_model, os.path.join(results_dir, f'best_model_{best_model_name.lower()}.pkl'))
-print(f"Best model saved to: {os.path.join(results_dir, f'best_model_{best_model_name.lower()}.pkl')}")
+print("\nSaving all trained models...")
+
+model_names = ['XGBoost', 'LightGBM', 'CatBoost']
+trained_models = [xgb_optimized, lgb_optimized, cat_optimized]
+
+for model_name, model_obj in zip(model_names, trained_models):
+    model_filename = f'best_model_{model_name.lower()}.pkl'
+    joblib.dump(model_obj, os.path.join(results_dir, model_filename))
+    print(f"{model_name} model saved to: {os.path.join(results_dir, model_filename)}")
+
+print("All models saved successfully.")

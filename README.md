@@ -92,10 +92,12 @@ The models showed the following performance after GWO optimization:
 │   └── DATASET_INFO.md                       # Dataset documentation
 ├── results/
 │   ├── accuracy_comparison.png               # Accuracy comparison visualization
-│   ├── best_model_catboost.pkl               # Trained best model (CatBoost)
+│   ├── best_model_catboost.pkl               # Trained CatBoost model
 │   ├── best_model_xgboost.pkl                # Trained XGBoost model
+│   ├── best_model_lightgbm.pkl                # Trained LightGBM model
 │   ├── confusion_matrix_catboost.png         # Confusion matrix for CatBoost
 │   ├── confusion_matrix_xgboost.png          # Confusion matrix for XGBoost
+│   ├── confusion_matrix_lightgbm.png         # Confusion matrix for LightGBM
 │   ├── customer_review_analysis_report.txt   # Detailed analysis report
 │   ├── feature_importance_catboost.png       # Feature importance for CatBoost
 │   ├── feature_importance_xgboost.png        # Feature importance for XGBoost
@@ -170,7 +172,7 @@ The project requires the following Python packages:
 4. **Data Augmentation:** Uses SMOTE to handle imbalanced datasets
 5. **Visualization:** Generates comprehensive visualizations of model performance and optimization convergence (saved to files, not displayed during execution)
 6. **Convergence Analysis:** Single comprehensive plot showing GWO optimization progress for all models
-7. **Model Persistence:** Saves the best performing model for future use
+7. **Model Persistence:** Saves all trained models for future use
 
 ## Contributing
 
