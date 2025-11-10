@@ -191,7 +191,7 @@ def create_visualizations(metrics_df, predictions, y_test):
     plt.savefig(os.path.join(results_dir, 'model_accuracy_comparison.png'), dpi=300, bbox_inches='tight')
     plt.show()
 
-    # 3. Confusion matrices
+    # 3. Confusion matrices - Combined view
     fig, axes = plt.subplots(1, 3, figsize=(18, 6))
 
     for i, (model_name, y_pred) in enumerate(predictions.items()):
@@ -206,6 +206,42 @@ def create_visualizations(metrics_df, predictions, y_test):
     plt.tight_layout()
     plt.savefig(os.path.join(results_dir, 'confusion_matrices.png'), dpi=300, bbox_inches='tight')
     plt.show()
+
+    # 4. Individual confusion matrices - Separate figures
+    for model_name, y_pred in predictions.items():
+        plt.figure(figsize=(8, 6))
+        cm = confusion_matrix(y_test, y_pred)
+        sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
+                   xticklabels=['No Purchase', 'Purchase'],
+                   yticklabels=['No Purchase', 'Purchase'])
+        plt.title(f'{model_name} Confusion Matrix', fontsize=16, fontweight='bold')
+        plt.xlabel('Predicted', fontsize=14)
+        plt.ylabel('Actual', fontsize=14)
+        plt.tight_layout()
+        plt.savefig(os.path.join(results_dir, f'{model_name.lower()}_confusion_matrix.png'), dpi=300, bbox_inches='tight')
+        plt.show()
+
+    # 5. Individual metric plots - Separate figures for each metric
+    metrics_to_plot = ['Accuracy', 'Precision', 'Recall', 'F1-Score']
+    colors = ['red', 'skyblue', 'lightgreen', 'orange']
+
+    for metric, color in zip(metrics_to_plot, colors):
+        plt.figure(figsize=(10, 6))
+        bars = plt.bar(metrics_df['Model'], metrics_df[metric], color=['blue', 'green', 'red'], alpha=0.7)
+        plt.xlabel('Model', fontsize=12)
+        plt.ylabel(metric, fontsize=12)
+        plt.title(f'Model {metric} Comparison', fontsize=14, fontweight='bold')
+        plt.ylim(0, 1)
+        plt.grid(axis='y', alpha=0.3)
+
+        # Add value labels on bars
+        for bar, value in zip(bars, metrics_df[metric]):
+            plt.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.01,
+                    f'{value:.3f}', ha='center', va='bottom', fontsize=11, fontweight='bold')
+
+        plt.tight_layout()
+        plt.savefig(os.path.join(results_dir, f'model_{metric.lower()}_comparison.png'), dpi=300, bbox_inches='tight')
+        plt.show()
 
 def generate_report(results, metrics_df):
     """Generate a detailed analysis report"""

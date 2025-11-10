@@ -87,7 +87,21 @@ After running either the Python script or the Jupyter notebook, the following fi
 
 - `results/model_comparison_report.txt` - Detailed analysis report
 - `results/model_comparison_metrics.csv` - Model performance metrics
+
+### Combined Visualizations
 - `results/model_accuracy_comparison.png` - Accuracy comparison chart
 - `results/model_comparison_metrics.png` - All metrics comparison chart
-- `results/confusion_matrices.png` - Confusion matrices for all models
+- `results/confusion_matrices.png` - Confusion matrices for all models (combined view)
+
+### Individual Model Visualizations
+- `results/xgboost_confusion_matrix.png` - XGBoost confusion matrix
+- `results/lightgbm_confusion_matrix.png` - LightGBM confusion matrix
+- `results/catboost_confusion_matrix.png` - CatBoost confusion matrix
+
+### Individual Metric Visualizations
+- `results/model_accuracy_comparison.png` - Accuracy comparison (individual metric)
+- `results/model_precision_comparison.png` - Precision comparison
+- `results/model_recall_comparison.png` - Recall comparison
+- `results/model_f1-score_comparison.png` - F1-Score comparison
+
 - Saved model files (PKL format) for each trained model
