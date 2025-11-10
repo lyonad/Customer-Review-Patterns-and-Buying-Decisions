@@ -4,7 +4,7 @@
 **Predicting Purchase Likelihood Using XGBoost, LightGBM, and CatBoost with Comprehensive Customer Review Data and Demographics**
 
 ## DOI
-**DOI: 10.5281/zenodo.17567948**
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17567948.svg)](https://doi.org/10.5281/zenodo.17567948)
 
 A machine learning project that analyzes customer review patterns and predicts buying decisions by comparing three gradient boosting algorithms: XGBoost, LightGBM, and CatBoost.
 
