@@ -1,0 +1,56 @@
+
+MODEL COMPARISON ANALYSIS REPORT
+=================================
+
+PROJECT OVERVIEW
+----------------
+- Project: Customer Review Pattern Analysis and Buying Decision Prediction
+- Objective: Compare XGBoost, LightGBM, and CatBoost models for purchase prediction
+- Dataset: Customer Review Data with 100 samples (augmented to ~112 with SMOTE)
+- Target: Predict "Purchased" (Yes/No) based on customer attributes
+
+DATASET INFORMATION
+-------------------
+- Original Dataset Shape: (100, 6)
+- Columns: Age, Gender, Review, Education, Purchased
+- Target Distribution (original): No: 56 samples (56%), Yes: 44 samples (44%)
+- Preprocessing: Categorical encoding, age groups, feature combinations, SMOTE augmentation
+
+FEATURE ENGINEERING
+-------------------
+- Created age groups: Young (18-25), Adult (26-35), Middle (36-50), Senior (51-60)
+- Created feature combinations: Gender_Review, Review_Edu
+- Applied StandardScaler to numerical features
+- Used SMOTE to balance the dataset
+
+MODEL RESULTS
+-------------
+
+XGBoost:
+- Accuracy: 0.6087 (60.87%)
+- Precision: 0.6120
+- Recall: 0.6087
+- F1-Score: 0.5995
+
+LightGBM:
+- Accuracy: 0.7391 (73.91%)
+- Precision: 0.7686
+- Recall: 0.7391
+- F1-Score: 0.7288
+
+CatBoost:
+- Accuracy: 0.7826 (78.26%)
+- Precision: 0.8011
+- Recall: 0.7826
+- F1-Score: 0.7775
+
+
+BEST MODEL ANALYSIS
+-------------------
+- Best Performing Model: CatBoost
+- Best Accuracy: 0.7826 (78.26%)
+- Performance Gain: 17.39% improvement over worst model
+
+CLASSIFICATION REPORTS
+----------------------
+(Detailed classification reports available in console output during model training)
