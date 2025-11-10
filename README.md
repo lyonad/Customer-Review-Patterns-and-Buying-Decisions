@@ -1,7 +1,7 @@
 # Customer Review Patterns and Buying Decisions
 
 ## Research Title
-**Predicting Purchase Likelihood using Advanced Gradient Boosting XGBoost LightGBM and CatBoost and Comprehensive Customer Data Reviews and Demographics**
+**Predicting Purchase Likelihood Using XGBoost, LightGBM, and CatBoost with Comprehensive Customer Review Data and Demographics**
 
 A machine learning project that analyzes customer review patterns and predicts buying decisions by comparing three gradient boosting algorithms: XGBoost, LightGBM, and CatBoost.
 
