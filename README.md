@@ -1,6 +1,6 @@
 # Performance Analysis of XGBoost, LightGBM, and CatBoost with Customer Review Patterns and Demographic Data
 
-## DOI
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-blue.svg)](https://github.com/lyonad/Customer-Review-Patterns-and-Buying-Decisions)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17567948.svg)](https://doi.org/10.5281/zenodo.17567948)
 
 A machine learning project that analyzes customer review patterns and predicts buying decisions by comparing three gradient boosting algorithms: XGBoost, LightGBM, and CatBoost.
@@ -58,7 +58,7 @@ Recent results using optimized default hyperparameters:
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/lyonad/Customer-Review-Patterns-and-Buying-Decisions.git
 cd Customer-Review-Patterns-and-Buying-Decisions
 ```
 
