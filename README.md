@@ -1,7 +1,7 @@
 # Customer Review Patterns and Buying Decisions
 
 ## Research Title
-**Predicting Purchase Likelihood Using XGBoost, LightGBM, and CatBoost with Comprehensive Customer Review Data and Demographics**
+**Performance Analysis of XGBoost, LightGBM, and CatBoost with Customer Review Patterns and Demographic Data**
 
 ## DOI
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17567948.svg)](https://doi.org/10.5281/zenodo.17567948)
