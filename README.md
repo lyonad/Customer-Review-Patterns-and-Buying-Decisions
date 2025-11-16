@@ -20,7 +20,7 @@ The goal is to understand how customer demographics (age, gender, education) and
 
 ## Dataset
 
-- **Source**: Kaggle - Customer Review Patterns and Buying Decisions
+- **Source**: [Kaggle - Customer Review Patterns and Buying Decisions](https://www.kaggle.com/datasets/ayeshaimran123/customer-review-patterns-and-buying-decisions)
 - **Size**: 100 samples (augmented to ~112 with SMOTE)
 - **Features**:
   - Age (18-59)
@@ -41,6 +41,38 @@ Recent results using optimized default hyperparameters:
 
 **Best Model**: CatBoost with 78.26% accuracy
 
+## Requirements
+
+- Python 3.7+
+- pandas
+- numpy
+- scikit-learn
+- xgboost
+- lightgbm
+- catboost
+- imbalanced-learn (for SMOTE)
+- matplotlib
+- seaborn
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd Customer-Review-Patterns-and-Buying-Decisions
+```
+
+2. Install the required packages:
+```bash
+pip install pandas numpy scikit-learn xgboost lightgbm catboost imbalanced-learn matplotlib seaborn
+```
+
+Or install all requirements at once:
+```bash
+pip install -r requirements.txt
+```
+*(Note: Create a requirements.txt file with all dependencies if preferred)*
+
 ## Usage
 
 ### Option 1: Run the Python Script
@@ -56,19 +88,6 @@ Both options perform the same analysis:
 - Trains XGBoost, LightGBM, and CatBoost models with optimized default parameters
 - Evaluates and compares model performance using multiple metrics
 - Generates comprehensive visualizations and reports
-
-## Requirements
-
-- Python 3.7+
-- pandas
-- numpy
-- scikit-learn
-- xgboost
-- lightgbm
-- catboost
-- imbalanced-learn (for SMOTE)
-- matplotlib
-- seaborn
 
 ## Key Findings
 
@@ -86,7 +105,6 @@ After running either the Python script or the Jupyter notebook, the following fi
 - `results/model_comparison_metrics.csv` - Model performance metrics
 
 ### Combined Visualizations
-- `results/model_accuracy_comparison.png` - Accuracy comparison chart
 - `results/model_comparison_metrics.png` - All metrics comparison chart
 - `results/confusion_matrices.png` - Confusion matrices for all models (combined view)
 
@@ -96,7 +114,7 @@ After running either the Python script or the Jupyter notebook, the following fi
 - `results/catboost_confusion_matrix.png` - CatBoost confusion matrix
 
 ### Individual Metric Visualizations
-- `results/model_accuracy_comparison.png` - Accuracy comparison (individual metric)
+- `results/model_accuracy_comparison.png` - Accuracy comparison
 - `results/model_precision_comparison.png` - Precision comparison
 - `results/model_recall_comparison.png` - Recall comparison
 - `results/model_f1-score_comparison.png` - F1-Score comparison
